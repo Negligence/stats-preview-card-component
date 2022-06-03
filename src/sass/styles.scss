@@ -68,6 +68,7 @@ footer {
   position: fixed;
   inset: auto 0 1rem;
   text-align: center; 
+  z-index: -1;
   
   > a {
     color: var(--accent-color);
