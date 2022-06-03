@@ -8,7 +8,9 @@ The root directory here displays the final compiled output, to use the source fi
 
 Using this requires that you install [Nodejs](https://nodejs.org/en/) to run node packet manager in the command line, if you don't have it yet download from the link above and install it. ![Nodejs](./src/assets/screenshots/nodejs.jpg)
 
-After that, you can now initialize the project using the command line or the build-in VScode command line using ```ctrl + ` ``` then running the ```npm start``` command. ![npm start](./src/assets/screenshots/npmstart.jpg)
+After that, you can now initialize the project using the command line or the build-in VScode command line using ```ctrl + ` ``` then running the ```npm install``` command. ![npm install](./src/assets/screenshots/npminstall.jpg)
+
+Then run the ```npm start``` command to start development. ![npm start](./src/assets/screenshots/npmstart.jpg) 
 
 If you are finished with the project, you can also use the ```npm run postbuild``` script to have your css be run through autoprefixer for browser compatibility and minify it at the same time. ![npm run postbuild](./src/assets/screenshots/npmrunpostbuild.jpg)
 
