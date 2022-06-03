@@ -1,0 +1,105 @@
+@use "sass:math";
+@use "sass:map";
+@use "sass:meta";
+@use "sass:list";
+
+// #region Colors
+// Setting the colors here generates css custom properties in styles.scss
+$main-bg-color: hsl(233, 47%, 7%);
+$card-bg-color: hsl(244, 38%, 16%);
+$accent-color: hsl(277, 64%, 61%);
+$main-color: hsl(0, 0%, 100%);
+$secondary-color: hsla(0, 0%, 100%, 0.75);
+$tertiary-color: hsla(0, 0%, 100%, 0.6);
+// #endregion Colors
+
+// #region Typography
+$primary: 'Inter', sans-serif;
+$secondary: 'Lexend Deca', sans-serif;
+$bold:700;
+$regular:400;
+// #endregion Typography
+
+// #region Fluid Type Scale Functions
+
+// These are the Base Stopping points for the min and max breakpoint
+$media-breakpoints: (
+mobile: 375px,
+desktop: 1440px,
+);
+
+// Creates Default min and max breakpoint variables so we can reference them later on
+$default-min-bp: map.get($media-breakpoints, "mobile");
+$default-max-bp: map.get($media-breakpoints, "desktop");
+
+// Takes in four values but has fallbacks for min and max breakpoint so you only have to worry about the min and max pixel sizes. Example usage: clamped(16px, 19px).
+// If you have other breakpoints, you can manually input the min and max breakpoint as arguments. Example usage: clamped(16px, 19px, 320px, 1920px).
+@function clamped($min-px, $max-px, $min-bp: $default-min-bp, $max-bp: $default-max-bp) {
+  $slope: math.div($max-px - $min-px, $max-bp - $min-bp);
+  $slope-vw: rnd($slope * 100, 2);
+  $intercept-rems: rnd(rem($min-px - $slope * $min-bp), 2);
+  
+  $min-rems: rnd(rem($min-px), 2);
+  $max-rems: rnd(rem($max-px), 2);
+  
+  @return clamp(#{$min-rems}, #{$slope-vw}vw + #{$intercept-rems}, #{$max-rems});
+}
+
+// This is just a simple rounding function to prevent very long floating point numbers
+@function rnd($number, $places: 0) {
+  $n: 1;
+  @if $places > 0 {
+    @for $i from 1 through $places {
+      $n: $n * 10;
+    }
+  }
+  @return math.div(math.round($number * $n), $n);
+}
+// #endregion Fluid Type Scale Functions
+
+// #region Rem and Em Converter Functions
+@function rem($px) {
+  $rems: math.div($px, 16px) * 1rem;
+  @return $rems;
+}
+
+$default-parent-font-size: 16px;
+@function em($px, $parent-font-size: $default-parent-font-size) {
+  $ems: math.div($px, $parent-font-size) * 1em;
+  @return $ems;
+}
+// #endregion Rem and Em Converter Functions
+
+// #region Media Query Mixins
+$breakpoints-up:(
+  medium: em(700px),
+  large: em(900px),
+  xlarge: em(1440px)
+  );
+
+  $breakpoints-down:(
+small: em(699.98px),
+medium: em(899.98px),
+large: em(1439.98px)
+);
+
+// 'if(meta.type-of($size) == string,' Checks if the $size variable is a string.
+// If it is a string it will get a value from the map in 'map-get($breakpoints-up, $size),'
+// If it is not a string it will take in raw pixel values and convert it to em units in 'em($size)'
+
+@mixin mobile-media-query($size) {
+  @media only screen and (min-width:
+  if(meta.type-of($size) == string,
+  map-get($breakpoints-up, $size), em($size))) {
+    @content;
+  } 
+}
+
+@mixin desktop-media-query($size) {
+  @media only screen and (max-width:
+  if(meta.type-of($size) == string,
+  map-get($breakpoints-down, $size), em($size))) {
+    @content;
+  } 
+}
+// #endregion Media Query Mixins
