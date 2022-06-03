@@ -1,0 +1,237 @@
+@use 'functions' as *;
+@use "sass:math";
+@use "sass:map";
+@use "sass:list";
+
+/* #region Defaults */
+html {
+  box-sizing: border-box;
+  height: 100%;
+  background-color: var(--main-bg-color);
+  --main-bg-color: #{$main-bg-color};
+  --card-bg-color: #{$card-bg-color};
+  --accent-color: #{$accent-color};
+  --main-color: #{$main-color};
+  --secondary-color: #{$secondary-color};
+  --tertiary-color: #{$tertiary-color};
+  --ff-head: #{$primary};
+  --ff-sub: #{$secondary};
+  --fw-bold: #{$bold};
+  --fw-reg: #{$regular};
+}
+
+*,*::before,*::after {
+  box-sizing: inherit;
+}
+
+:not(ul, ol, li) {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+body {
+  height: inherit;
+  display: grid;
+  place-items: center;
+  gap: clamped(16px, 32px);
+  
+  main {
+    display: contents;
+  }
+}
+
+h1,h2,h3,h4,h5,h6,p,a,footer,figure {
+  font: {
+    family: var(--ff-head);
+    weight: var(--fw-bold);
+  }
+  color: var(--main-color);
+}
+
+p, figcaption, footer {
+  font-weight: var(--fw-reg);
+  color: var(--secondary-color);
+}
+
+figcaption, footer {
+  font-family: var(--ff-sub);
+  color: var(--tertiary-color);
+}
+
+a {
+  text-decoration: none;
+}
+
+footer { 
+  font-size: rem(11px);
+  position: fixed;
+  inset: auto 0 1rem;
+  text-align: center; 
+  
+  > a {
+    color: var(--accent-color);
+  }
+}
+/* #endregion Defaults */
+
+/* #region Mobile Styling */
+section {
+  width: rem(327px);
+  height: rem(780px);
+  border-radius: rem(8px);
+  background-color: var(--card-bg-color);
+  overflow: hidden;
+  display: grid;
+  justify-items: center;
+  grid: 
+  "   img  img  img   " max-content
+  "    .    .    .    " rem(40px)
+  "    .    h1   .    " max-content
+  "    .    .    .    " rem(16px)
+  "    .    p    .    " max-content
+  "    .    .    .    " rem(43px)
+  "    .  stats  .    " max-content
+  "    .    .    .    "
+  /  auto  1fr  auto;
+  transition:
+  height 250ms ease-in-out,
+  width 250ms ease-in-out  ;
+
+  
+  * {
+    text-align: center;
+  }
+  
+  &::before {
+    grid-area: img;
+    justify-self: normal;
+    content: '';
+    background-color: var(--accent-color);
+    mix-blend-mode: multiply;
+  }
+  
+  > img {
+    grid-area: img;
+    height: rem(240px);
+    object-fit: cover;
+  }
+
+  > img[src*="desktop"] {
+    display: none;
+  }
+
+  > h1 {
+    grid-area: h1;
+    width: rem(260px);
+    font-size: rem(28px);
+    line-height: em(32px, 28px);
+
+    span {
+      color: var(--accent-color);
+    }
+  }
+
+  > p {
+    grid-area: p;
+    width: rem(260px);
+    font-size: rem(15px);
+    line-height: em(25px, 15px);
+  }
+
+  > .stats {
+    grid-area: stats;
+    display: grid;
+    gap: rem(33px);
+
+    figure {
+      display: grid;
+      gap: rem(10px);
+    }
+
+    strong {
+      font-size: rem(24px);
+    }
+    
+    figcaption {
+      font-size: rem(13px);
+      text-transform: uppercase;
+      letter-spacing: rem(0.40px);
+    }
+  }
+}
+
+/* #endregion Mobile Styling */
+
+/* #region Desktop Styling */
+
+@include mobile-media-query(1150px) {
+  section {
+    width: rem(1110px);
+    height: rem(446px);
+    padding-inline-start: rem(71px);
+    justify-items: start;
+    grid: 
+    "    .    .    .    img    " rem(71px)
+    "    .    h1   .    img    "
+    "    .    .    .    img    " rem(25px)
+    "    .    p    .    img    "
+    "    .    .    .    img    " rem(75px)
+    "    .  stats  .    img    "
+    "    .    .    .    img    "
+    /   auto  1fr  auto  rem(540px);
+
+    * {
+      text-align: initial;
+    }
+
+    > img {
+      width: 100%;
+      height: 100%;
+    }
+
+    > img[src*="desktop"] {
+      display: inline;
+    }
+
+    > img[src*="mobile"] {
+      display: none;
+    }
+
+    > h1 {
+      width: rem(380px);
+      font-size: rem(36px);
+      line-height: em(44px, 36px);
+    }
+
+    > p {
+      width: rem(380px);
+    }
+  
+    > .stats {
+      grid-auto-flow: column;
+      align-items: center;
+      gap: rem(63px);
+    }
+  }
+}
+/* #endregion Desktop Styling */
+
+/* #region Active states */
+footer > a {
+  transition: color 250ms ease-in-out;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: white;
+  }
+
+  &:focus,
+  &:active {
+    border-radius: rem(2px);
+    outline:currentColor solid 2px;
+  }
+
+}
+/* #endregion Active states */
