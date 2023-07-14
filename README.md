@@ -539,7 +539,7 @@ They take in a pixel values as an argument then converts it to em values.
 - Youtube - [Jan Panado](https://www.youtube.com/channel/UC4ojhHYmkHptu2JpyKtrL-w)
 - LinkedIn - [Jan Panado](https://www.linkedin.com/in/janp-09/)
 - Facebook - [Jan Panado](https://www.facebook.com/jan.panado)
-- Website - [Jan Panado](https://jan-panado.com/)
+- Website - [Jan Panado](https://janpanado.com/)
 
 ## Acknowledgments
 
